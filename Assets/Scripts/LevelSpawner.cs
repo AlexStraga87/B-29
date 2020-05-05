@@ -7,7 +7,6 @@ using UnityEngine.Events;
 
 public class LevelSpawner : MonoBehaviour
 {
-    public event UnityAction<float> TimePassed;
     [SerializeField] private BomberMover _bomberTemplate;
     [SerializeField] private SuiciderMover _suiciderTemplate;
     [SerializeField] private HarvesterMover _harvesterTemplate;
@@ -34,6 +33,8 @@ public class LevelSpawner : MonoBehaviour
     private Round _currentRound;
     private Round[] _round;
     private string[] EnemyNames = { "элиминаторов", "бомберов", "взрывателей", "транспортов", "харвестеров" };
+
+    public event UnityAction<float> TimePassed;
 
     private void Start()
     {
