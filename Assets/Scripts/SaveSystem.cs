@@ -1,39 +1,18 @@
 ﻿using System.Collections;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Events;
+using Newtonsoft.Json;
 
-public class SaveSystem: MonoBehaviour
+public class SaveSystem: PlayerDataLoader
 {
-    static SaveSystem _instance;
-    public static SaveSystem Instance
-    {
-        get
-        {
-            return _instance;
-        }
-        set
-        {
-            if (_instance == null)
-            {
-                _instance = value;
-            }
-        }
-    }
     public event UnityAction<int> MoneyChange;
-
-    private PlayerData _playerData;
-    private string path;
 
     private void Awake()
     {
-        path = Application.persistentDataPath + "/Save.dat";
-        Instance = this;
         LoadData();
     }
 
-    public PlayerData GetPlayerData()
+    public override PlayerData GetPlayerData()
     {
         if (_playerData == null)
         {
@@ -41,7 +20,6 @@ public class SaveSystem: MonoBehaviour
             _playerData.Initialize();
             SaveData();
         }
-
         return _playerData;
     }
 
@@ -77,31 +55,9 @@ public class SaveSystem: MonoBehaviour
 
     public void SaveData()
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        PlayerData data = GetPlayerData();
-
-        formatter.Serialize(stream, data);
-        stream.Close();
-
-    }
-
-    public void LoadData()
-    {
-        if (File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
-            PlayerData data = formatter.Deserialize(stream) as PlayerData;
-            stream.Close();
-            _playerData = data;
-        }
-        else
-        {
-            _playerData = new PlayerData();
-            _playerData.Initialize();
-        }
+        string save = JsonConvert.SerializeObject(_playerData);
+        PlayerPrefs.SetString("save", save);
+        PlayerPrefs.Save();
     }
 
     public int GetUpgradeLevel(UpgradesList upgrade)

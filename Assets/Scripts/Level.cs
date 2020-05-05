@@ -5,12 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Levels/Level")]
 public class Level : ScriptableObject
 {
-    public Round[] round;
+    [SerializeField] private Round[] round;
+
     [SerializeField] public int TotalTime;
     [SerializeField] public int MaxMoney;
-    public bool BossMusic;
-    private int _totalTime;
-
+    [SerializeField] private bool _isBossMusic;
 
     private void OnValidate()
     {
@@ -26,9 +25,18 @@ public class Level : ScriptableObject
         }
     }
 
+    public bool IsBossMusic()
+    {
+        return _isBossMusic;
+    }
+
+    public Round[] GetRounds()
+    {
+        return round;
+    }
+
+
 }
-
-
 
 [System.Serializable]
 public struct Round

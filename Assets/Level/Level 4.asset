@@ -30,4 +30,4 @@ MonoBehaviour:
     IsNextWaveAfterDestroyCurrent: 0
   TotalTime: 20
   MaxMoney: 1000
-  BossMusic: 1
+  _isBossMusic: 1

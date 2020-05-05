@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(PlayerDataLoader))]
 public class Player : Destroyable
 {
     public float EnergyCount => _energyCount;
-    public event UnityAction<float> EnergyChange;
-    public event UnityAction<float> HPChange;
     [SerializeField] private GameObject _effectByDead;
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
     private float _energyCount = 100;
     private int _energyMax = 100;
+
+    public event UnityAction<float> EnergyChange;
+    public event UnityAction<float> HPChange;
 
     private void Start()
     {
@@ -20,7 +23,7 @@ public class Player : Destroyable
 
     protected void Upgrades()
     {
-        PlayerData playerData = SaveSystem.Instance.GetPlayerData();
+        PlayerData playerData = _playerDataLoader.GetPlayerData();
         _energyMax += playerData.Upgrades[(int)UpgradesList.Battery] * 15;
         _energyCount = _energyMax;
 

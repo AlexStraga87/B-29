@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(PlayerDataLoader))]
 public class UILevelScreen : MonoBehaviour
 {
     [SerializeField] private RectTransform _circleMark;
@@ -10,10 +11,11 @@ public class UILevelScreen : MonoBehaviour
     [TextArea]
     [SerializeField] private string[] _levelDecription;
     [SerializeField] private TMP_Text _description;
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
 
     private void Start()
     {
-        int currentLevel = SaveSystem.Instance.GetPlayerData().CurrentLevel;
+        int currentLevel = _playerDataLoader.GetPlayerData().CurrentLevel;
         SetMarkAndDescription(currentLevel);
     }
 

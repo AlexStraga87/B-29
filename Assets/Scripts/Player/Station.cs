@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(PlayerDataLoader))]
 public class Station : Destroyable
 {
-    
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
     [SerializeField] private float _chargerCount = 3;
     [SerializeField] private GameObject _effectByDead;
-    public event UnityAction<float> EnergyChange;
-    public event UnityAction<float> HPChange;
-
     private float _energyCount = 0;
     private float _energyMax = 0;
 
+    public event UnityAction<float> EnergyChange;
+    public event UnityAction<float> HPChange;
 
     private void Start()
-    {        
+    {
         Upgrades();
         _hp = _hpMax;
     }
@@ -38,7 +38,7 @@ public class Station : Destroyable
 
     protected void Upgrades()
     {
-        PlayerData playerData = SaveSystem.Instance.GetPlayerData();
+        PlayerData playerData = _playerDataLoader.GetPlayerData();
         _energyMax += playerData.Upgrades[(int)UpgradesList.StationShield] * 15;
         _energyCount = _energyMax;
     }

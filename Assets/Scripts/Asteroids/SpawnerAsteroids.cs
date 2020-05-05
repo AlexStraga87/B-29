@@ -7,7 +7,6 @@ public class SpawnerAsteroids : MonoBehaviour
     [SerializeField] Asteroid _template;
     [SerializeField] Sprite[] _asteroidsVariant;
     
-
     private void Start()
     {
         for (int i = 0; i < 35; i++)
@@ -21,8 +20,6 @@ public class SpawnerAsteroids : MonoBehaviour
         var newAsteroid = Instantiate(_template, GetRandomPosition(), Quaternion.Euler(0, 0, Random.Range(0, 360)), transform);
         newAsteroid.GetComponent<SpriteRenderer>().sprite = _asteroidsVariant[Random.Range(0, _asteroidsVariant.Length)];
     }
-
-
 
     private Vector3 GetRandomPosition()
     {

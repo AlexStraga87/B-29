@@ -7,6 +7,7 @@ public class Shop : MonoBehaviour
 {
     [SerializeField] private TMP_Text _description;
     [SerializeField] private TMP_Text _moneytext;
+    [SerializeField] private SaveSystem _saveSystem;
 
     private ShopItem[] _shopItems;
 
@@ -23,8 +24,8 @@ public class Shop : MonoBehaviour
             item.MouseExit += ClearDescription;
             item.MouseClick += Buy;
         }
-        SaveSystem.Instance.MoneyChange += ShowMoney;
-        ShowMoney(SaveSystem.Instance.GetPlayerData().Money);
+        _saveSystem.MoneyChange += ShowMoney;
+        ShowMoney(_saveSystem.GetPlayerData().Money);
     }
 
     private void OnDisable()
@@ -35,7 +36,7 @@ public class Shop : MonoBehaviour
             item.MouseExit -= ClearDescription;
             item.MouseClick -= Buy;
         }
-        SaveSystem.Instance.MoneyChange -= ShowMoney;
+        _saveSystem.MoneyChange -= ShowMoney;
     }
 
     private void ClearDescription()
@@ -50,7 +51,7 @@ public class Shop : MonoBehaviour
 
     private void Buy(UpgradesList shopItem)
     {
-        SaveSystem.Instance.Upgrade(shopItem);
+        _saveSystem.Upgrade(shopItem);
     }
 
     private void ShowMoney(int money)

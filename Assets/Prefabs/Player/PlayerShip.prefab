@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 2723723999644191207}
   - component: {fileID: 154898228}
   - component: {fileID: 1897842877893943584}
+  - component: {fileID: 5447085548426388496}
   m_Layer: 11
   m_Name: PlayerShip
   m_TagString: Untagged
@@ -170,6 +171,7 @@ MonoBehaviour:
   _hpMax: 30
   _isImmortal: 0
   _effectByDead: {fileID: 8587740979467203982}
+  _playerDataLoader: {fileID: 5447085548426388496}
 --- !u!114 &114545819984548466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxSpeed: 10
+  _playerDataLoader: {fileID: 5447085548426388496}
   _aimMouse: {fileID: 4448882593476234293}
   _audioSource: {fileID: 154898228}
 --- !u!114 &1759189934989487915
@@ -201,6 +204,7 @@ MonoBehaviour:
   - {fileID: 756054633}
   - {fileID: 756054632}
   - {fileID: 756054631}
+  _playerDataLoader: {fileID: 5447085548426388496}
 --- !u!114 &756054633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +469,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: -3240373575852051446}
+--- !u!114 &5447085548426388496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433174437360946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc028734a09e24a4a841b546b67474e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2019442795528110647
 GameObject:
   m_ObjectHideFlags: 0

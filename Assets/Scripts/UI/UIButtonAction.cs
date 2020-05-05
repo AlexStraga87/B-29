@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIButtonAction : MonoBehaviour
 {
+    [SerializeField] private SaveSystem _saveSystem;
 
     public void LoadScene(string nameScene)
     {
@@ -13,7 +14,7 @@ public class UIButtonAction : MonoBehaviour
 
     public void ResetSaveFile()
     {
-        SaveSystem.Instance.ResetSaveData();
+        _saveSystem.ResetSaveData();
     }
 
     public void QuitGame()
@@ -24,7 +25,7 @@ public class UIButtonAction : MonoBehaviour
 
     public void PassedButtonClick()
     {
-        PlayerData data = SaveSystem.Instance.GetPlayerData();
+        PlayerData data = _saveSystem.GetPlayerData();
         if (data.CurrentLevel == 10)
         {
             ResetSaveFile();

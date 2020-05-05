@@ -21,6 +21,7 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private Player _player;
     [SerializeField] private Station _station;
+    [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioClip _musicBoss;
@@ -31,24 +32,22 @@ public class LevelSpawner : MonoBehaviour
     private float _roundTimeTotal = 0;
     private float _roundTime = 0;
     private Round _currentRound;
+    private Round[] _round;
     private string[] EnemyNames = { "элиминаторов", "бомберов", "взрывателей", "транспортов", "харвестеров" };
 
     private void Start()
     {
-        _level = _levels[SaveSystem.Instance.GetPlayerData().CurrentLevel];
-        if (_level.BossMusic)
+        _level = _levels[_saveSystem.GetPlayerData().CurrentLevel];
+        if (_level.IsBossMusic())
         {
             _musicSource.clip = _musicBoss;
             _musicSource.Play();
         }
-        /*
-        for (int i = 0; i < _level.round.Length; i++)
-        {
-            _roundTimeTotal += _level.round[i].TimeToNextWave;
-        }*/
+
         _roundTimeTotal = _level.TotalTime;
-        _timeForNext = _level.round[_numRound].TimeToNextWave;
-        _currentRound = _level.round[_numRound];
+        _round = _level.GetRounds();
+        _timeForNext = _round[_numRound].TimeToNextWave;
+        _currentRound = _round[_numRound];
         Spawn();
     }
 
@@ -62,10 +61,10 @@ public class LevelSpawner : MonoBehaviour
         if (_timeForNext <= 0 && _currentEnemies.Count == 0)
         {
             _numRound++;
-            if (_numRound < _level.round.Length)
+            if (_numRound < _level.GetRounds().Length)
             {
-                _timeForNext = _level.round[_numRound].TimeToNextWave;
-                _currentRound = _level.round[_numRound];
+                _timeForNext = _round[_numRound].TimeToNextWave;
+                _currentRound = _round[_numRound];
                 Spawn();
             }
         }
@@ -94,7 +93,6 @@ public class LevelSpawner : MonoBehaviour
                 SetHarvesterTarget(SpawnEnemy(_harvesterTemplate.gameObject, false));
                 break;
             case Wave.Boss1:
-                //Boss1Spawn();
                 BossSpawn(_boss1Template.gameObject);
                 break;
             case Wave.Boss2:
@@ -120,26 +118,8 @@ public class LevelSpawner : MonoBehaviour
         {
             shooter.SetTargets(_player, _station);
         }
-        //boss.GetComponent<Boss_1Shooter>().SetTargets(_player, _station);
         boss.GetComponent<EnemyMover>().SetTarget(_station.transform);
-        ShowDetectorInfo("", false);
-        if (_currentRound.IsNextWaveAfterDestroyCurrent)
-        {
-            SetEnemyToList(boss.gameObject);
-        }
-    }
-
-    private void Boss1Spawn()
-    {
-        Boss boss = Instantiate(_boss1Template, _spawnPoints[_currentRound.NumberSpawner].position, Quaternion.identity);
-        Component[] shooters = boss.GetComponentsInChildren(typeof(Shooter));
-
-        foreach (Shooter shooter in shooters)
-        {
-            shooter.SetTargets(_player, _station);
-        }
-        //boss.GetComponent<Boss_1Shooter>().SetTargets(_player, _station);
-        boss.GetComponent<EnemyMover>().SetTarget(_station.transform);
+        boss.GetComponent<EnemyDestroyable>().SetSaveSystem(_saveSystem);
         ShowDetectorInfo("", false);
         if (_currentRound.IsNextWaveAfterDestroyCurrent)
         {
@@ -149,8 +129,8 @@ public class LevelSpawner : MonoBehaviour
 
     private void Win()
     {
-        SaveSystem.Instance.PassLevel();
-        SaveSystem.Instance.SaveData();
+        _saveSystem.PassLevel();
+        _saveSystem.SaveData();
         SceneManager.LoadScene("PassedScene");
         _player.SetImmortal();
         _station.SetImmortal();
@@ -164,6 +144,7 @@ public class LevelSpawner : MonoBehaviour
             var newEnemy = Instantiate(enemy, _spawnPoints[_currentRound.NumberSpawner].position + (Vector3)Random.insideUnitCircle * 5, Quaternion.identity);
             if (isNeenSetTarget)
             {
+                newEnemy.GetComponent<EnemyDestroyable>().SetSaveSystem(_saveSystem);
                 newEnemy.GetComponent<Shooter>().SetTargets(_player, _station);
                 newEnemy.GetComponent<EnemyMover>().SetTarget(_station.transform);
             }
@@ -247,6 +228,7 @@ public class LevelSpawner : MonoBehaviour
         Flock flock = Instantiate(_flockTemplate, _spawnPoints[_currentRound.NumberSpawner].position + (Vector3)Random.insideUnitCircle * 5, Quaternion.identity);
         flock.SetTarget(_player, _station);
         flock.SetAgentCount(_currentRound.Count);
+        flock.SetSaveSystem(_saveSystem);
         if (_currentRound.IsNextWaveAfterDestroyCurrent)
         {
             SetEnemyFlockToList(flock.gameObject);

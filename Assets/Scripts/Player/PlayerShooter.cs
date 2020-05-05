@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerDataLoader))]
 public class PlayerShooter : MonoBehaviour
 {
-    [SerializeField] List<Weapon> _weapons;
+    [SerializeField] private List<Weapon> _weapons;
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
     private Player player;
 
     private void Start()
     {
         player = GetComponent<Player>();
-        PlayerData playerData = SaveSystem.Instance.GetPlayerData();
+        PlayerData playerData = _playerDataLoader.GetPlayerData();
         _weapons[0].Upgrade(playerData.Upgrades[(int)UpgradesList.Plasma]);
         _weapons[1].Upgrade(playerData.Upgrades[(int)UpgradesList.Laser]);
         _weapons[2].Upgrade(playerData.Upgrades[(int)UpgradesList.Rocket]);

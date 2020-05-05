@@ -11,22 +11,22 @@ public class WeaponBarInterface : MonoBehaviour
 
     private void OnEnable()
     {
-        _weaponScript.Activate += Activate;
-        _weaponScript.Reload += ReloadTime;
+        _weaponScript.Activate += OnActivate;
+        _weaponScript.Reload += OnReloadTime;
     }
 
     private void OnDisable()
     {
-        _weaponScript.Activate -= Activate;
-        _weaponScript.Reload -= ReloadTime;
+        _weaponScript.Activate -= OnActivate;
+        _weaponScript.Reload -= OnReloadTime;
     }
 
-    private void Activate(bool isActive)
+    private void OnActivate(bool isActive)
     {
         _weaponImage.enabled = isActive;
     }
 
-    private void ReloadTime(float reloadTimeNormalize)
+    private void OnReloadTime(float reloadTimeNormalize)
     {
         _weaponImage.fillAmount = reloadTimeNormalize;
     }

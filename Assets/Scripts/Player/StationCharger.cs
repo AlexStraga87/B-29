@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerDataLoader))]
 public class StationCharger : MonoBehaviour
 {
-    [SerializeField] Transform _field;
-    [SerializeField] Player _player;
+    [SerializeField] private Transform _field;
+    [SerializeField] private Player _player;
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
+
     private int _maxDistance = 5;
     private int _chargerCount = 8;
 
     private void Start()
     {
-        PlayerData playerData = SaveSystem.Instance.GetPlayerData();
+        PlayerData playerData = _playerDataLoader.GetPlayerData();
         Upgrade(playerData.Upgrades[(int)UpgradesList.PowerField]);
     }
 

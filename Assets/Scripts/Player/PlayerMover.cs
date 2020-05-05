@@ -4,11 +4,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PlayerDataLoader))]
 public class PlayerMover: MonoBehaviour
 {
     public float _maxSpeed = 10f;
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
     [SerializeField] private GameObject _aimMouse;
     [SerializeField] protected AudioSource _audioSource;
+    
 
     private Rigidbody2D _rigidBody2D;
     private Animator _animator;    
@@ -22,7 +25,7 @@ public class PlayerMover: MonoBehaviour
 
     protected void Upgrades()
     {
-        PlayerData playerData = SaveSystem.Instance.GetPlayerData();
+        PlayerData playerData = _playerDataLoader.GetPlayerData();
         _maxSpeed += playerData.Upgrades[(int)UpgradesList.ShipSpeed] * 2.5f;
     }
 

@@ -21,8 +21,9 @@ public class Flock : MonoBehaviour
 
     private Player _player;
     private Station _station;
-
     private List<FlockAgent> _agents = new List<FlockAgent>();
+
+    private SaveSystem _saveSystem;
 
     private float _squareMaxSpeed;
     private float _squareNeighborRadius;
@@ -57,11 +58,17 @@ public class Flock : MonoBehaviour
                 );
             newAgent.name = "Eliminator " + i;
             newAgent.Dead += RemoveAgent;
-            newAgent.Initialize(this);
+            newAgent.Initialize(this, _saveSystem);
+
             _agents.Add(newAgent);
 
             newAgent.GetComponent<Shooter>().SetTargets(_player, _station);
         }
+    }
+
+    public void SetSaveSystem(SaveSystem saveSystem)
+    {
+        _saveSystem = saveSystem;
     }
 
     public void SetAgentCount(int count)
@@ -111,13 +118,11 @@ public class Flock : MonoBehaviour
     private void GetNearbyObjects(FlockAgent agent)
     {
         _nearbyAgents = new List<FlockAgent>();
-        _nearbyObstacles = new List<UnityEngine.Transform>();
+        _nearbyObstacles = new List<Transform>();
 
         Collider2D[] contextColliders = Physics2D.OverlapCircleAll(agent.transform.position, _neighborRadius);
         foreach (Collider2D collider in contextColliders)
         {
-            //if (CheckConeVisible(agent.transform, collider.transform.position) == false)
-            //    continue;
 
             FlockAgent checkingAgent = collider.GetComponent<FlockAgent>();
 
@@ -144,9 +149,6 @@ public class Flock : MonoBehaviour
             return true;
         return false; 
     }
-
-
-
 
     private Vector2 SteeredCohesionMove(FlockAgent agent, List<FlockAgent> context, float weight)
     {        

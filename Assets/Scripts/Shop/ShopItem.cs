@@ -9,10 +9,6 @@ using UnityEngine.UI;
 public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public string Description => _description;
-    public event UnityAction<UpgradesList> MouseClick;
-    public event UnityAction<string> MouseEnter;
-    public event UnityAction MouseExit;
-
     [SerializeField] private TMP_Text _upgradeLevelText;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private TMP_Text _costText;
@@ -22,13 +18,19 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [TextArea]
     [SerializeField] private string _description;
     [SerializeField] private int[] _prices;
+    [SerializeField] private SaveSystem _saveSystem;
+
     private int _currentPrice;
     private int _currentLevel;
+
+    public event UnityAction<UpgradesList> MouseClick;
+    public event UnityAction<string> MouseEnter;
+    public event UnityAction MouseExit;
 
     private void Start()
     {
         _icon.sprite = _iconSprite;
-        _currentLevel = SaveSystem.Instance.GetUpgradeLevel(_upgradesType);
+        _currentLevel = _saveSystem.GetUpgradeLevel(_upgradesType);
         SetUpgradeLevel(_currentLevel);
     }
 
@@ -60,7 +62,7 @@ public class ShopItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (SaveSystem.Instance.TryDecreaseMoney(_currentPrice))
+        if (_saveSystem.TryDecreaseMoney(_currentPrice))
         {
             MouseClick?.Invoke(_upgradesType);
             _currentLevel++;

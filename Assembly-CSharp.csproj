@@ -120,18 +120,22 @@
     <Compile Include="Assets\Scripts\Player\Weapon\RocketLauncherWeapon.cs" />
     <Compile Include="Assets\Scripts\Player\Weapon\Weapon.cs" />
     <Compile Include="Assets\Scripts\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\PlayerDataLoader.cs" />
+    <Compile Include="Assets\Scripts\Rotater.cs" />
     <Compile Include="Assets\Scripts\SaveSystem.cs" />
     <Compile Include="Assets\Scripts\Shop\Shop.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopItem.cs" />
     <Compile Include="Assets\Scripts\UI\AudioSettings.cs" />
     <Compile Include="Assets\Scripts\UI\FlashImage.cs" />
+    <Compile Include="Assets\Scripts\UI\GameMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\MoneyBar.cs" />
+    <Compile Include="Assets\Scripts\UI\PlayerStatusBar.cs" />
+    <Compile Include="Assets\Scripts\UI\ProgressLevelBar.cs" />
     <Compile Include="Assets\Scripts\UI\ResolutionSettings.cs" />
-    <Compile Include="Assets\Scripts\UI\Rotater.cs" />
-    <Compile Include="Assets\Scripts\UI\StatusBarInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\StationStatusBar.cs" />
     <Compile Include="Assets\Scripts\UI\Tutorial.cs" />
     <Compile Include="Assets\Scripts\UI\UIButtonAction.cs" />
     <Compile Include="Assets\Scripts\UI\UILevelScreen.cs" />
-    <Compile Include="Assets\Scripts\UI\UIMenuInGame.cs" />
     <Compile Include="Assets\Scripts\UI\WeaponBarInterface.cs" />
     <Compile Include="Assets\WarpSpeed\WarpSpeed.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
@@ -139,6 +143,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Shaders\FastBlur.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\JsonDotNet\link.xml" />
     <None Include="Assets\Shaders\SpinBlur.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -418,6 +423,9 @@
     </Reference>
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:/Projects/UnityProject/B-29/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/Projects/UnityProject/B-29/Library/PackageCache/com.unity.analytics@3.3.4/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>

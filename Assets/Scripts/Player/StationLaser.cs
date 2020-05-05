@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerDataLoader))]
 public class StationLaser : MonoBehaviour
 {
     [SerializeField] private LineRenderer _lineRenderer;
@@ -10,6 +11,8 @@ public class StationLaser : MonoBehaviour
     [SerializeField] private float _reloadTime = 10;
     [SerializeField] private float _lastFireTime = 10;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private PlayerDataLoader _playerDataLoader;
+
     private EnemyDestroyable _target;
 
     private void Start()
@@ -19,7 +22,7 @@ public class StationLaser : MonoBehaviour
 
     protected void Upgrades()
     {
-        PlayerData playerData = SaveSystem.Instance.GetPlayerData();
+        PlayerData playerData = _playerDataLoader.GetPlayerData();
         int level = playerData.Upgrades[(int)UpgradesList.StationGun];
         switch (level)
         {
