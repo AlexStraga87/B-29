@@ -12,7 +12,7 @@ public class PlayerData
     public void Initialize()
     {
         CurrentLevel = 0;
-        Money = 10000;
+        Money = 0;
         Upgrades = new int[9];
         for (int i = 0; i < 9; i++)
         {

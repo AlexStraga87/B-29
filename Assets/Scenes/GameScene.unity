@@ -4212,7 +4212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797e440be0ba1d644aa821a548c46d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sliderStationHP: {fileID: 666877068}
+  _sliderStationHP: {fileID: 781821195}
   _sliderStationEnergy: {fileID: 666877068}
   _station: {fileID: 1590293062}
 --- !u!114 &981399961

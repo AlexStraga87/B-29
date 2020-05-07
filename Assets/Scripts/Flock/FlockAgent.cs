@@ -15,7 +15,6 @@ public class FlockAgent : MonoBehaviour
     private Collider2D _agentCollider;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _velocity = new Vector2();
-    private SaveSystem _saveSystem;
 
     private void Start()
     {
@@ -28,10 +27,9 @@ public class FlockAgent : MonoBehaviour
         Dead?.Invoke(this);
     }
 
-    public void Initialize(Flock flock, SaveSystem saveSystem)
+    public void Initialize(Flock flock)
     {
         _agentFlock = flock;
-        _saveSystem = saveSystem;
     }
 
     public void SetVelocity(Vector2 velocity)

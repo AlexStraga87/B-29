@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class Flock : MonoBehaviour
 {
-    public event UnityAction<GameObject> Dead;
-
     [SerializeField] private int _startingCount = 250;
     [SerializeField] private FlockAgent _agentPrefab;
     [SerializeField] private float _driveFactor = 10f;
@@ -22,7 +20,6 @@ public class Flock : MonoBehaviour
     private Player _player;
     private Station _station;
     private List<FlockAgent> _agents = new List<FlockAgent>();
-
     private SaveSystem _saveSystem;
 
     private float _squareMaxSpeed;
@@ -34,6 +31,8 @@ public class Flock : MonoBehaviour
 
     private List<FlockAgent> _nearbyAgents;
     private List<Transform> _nearbyObstacles;
+
+    public event UnityAction<GameObject> Dead;
 
     private void OnValidate()
     {
@@ -58,14 +57,13 @@ public class Flock : MonoBehaviour
                 );
             newAgent.name = "Eliminator " + i;
             newAgent.Dead += RemoveAgent;
-            newAgent.Initialize(this, _saveSystem);
-
+            newAgent.Initialize(this);
+            newAgent.GetComponent<EnemyDestroyable>().SetSaveSystem(_saveSystem);
             _agents.Add(newAgent);
-
             newAgent.GetComponent<Shooter>().SetTargets(_player, _station);
         }
     }
-
+    
     public void SetSaveSystem(SaveSystem saveSystem)
     {
         _saveSystem = saveSystem;
@@ -141,7 +139,7 @@ public class Flock : MonoBehaviour
         
     }
 
-    private bool CheckConeVisible(UnityEngine.Transform positionOriginal, Vector2 positionObject, float coneAngle = 120)
+    private bool CheckConeVisible(Transform positionOriginal, Vector2 positionObject, float coneAngle = 120)
     {
         Vector2 direction = positionObject - (Vector2)positionOriginal.position;
         float currentAngle = Vector2.Angle(direction, positionOriginal.up);
@@ -206,14 +204,14 @@ public class Flock : MonoBehaviour
         return avoidanceMove;
     }
 
-    private Vector2 ObstacleMove(FlockAgent agent, List<UnityEngine.Transform> context, float weight)
+    private Vector2 ObstacleMove(FlockAgent agent, List<Transform> context, float weight)
     {
         if (context.Count == 0)
             return Vector2.zero;
 
         Vector2 obstacleMove = Vector2.zero;
         int nObstacles = 0;
-        foreach (UnityEngine.Transform item in context)
+        foreach (Transform item in context)
         {
             if (Vector2.SqrMagnitude(item.position - agent.transform.position) < _squareNeighborRadius)
             {

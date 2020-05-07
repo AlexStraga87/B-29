@@ -14,6 +14,11 @@ public class EnemyDestroyable : Destroyable
         _saveSystem = saveSystem;
     }
 
+    public SaveSystem GetSaveSystem()
+    {
+        return _saveSystem;
+    }
+
     public void ResetMoneyReward()
     {
         _money = 0;

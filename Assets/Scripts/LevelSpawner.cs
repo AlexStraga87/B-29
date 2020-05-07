@@ -114,13 +114,17 @@ public class LevelSpawner : MonoBehaviour
     {
         GameObject boss = Instantiate(bossTemplate, _spawnPoints[_currentRound.NumberSpawner].position, Quaternion.identity);
         Component[] shooters = boss.GetComponentsInChildren(typeof(Shooter));
-
         foreach (Shooter shooter in shooters)
         {
             shooter.SetTargets(_player, _station);
         }
+
+        Component[] destroyables = boss.GetComponentsInChildren(typeof(EnemyDestroyable));
+        foreach (EnemyDestroyable destroyable in destroyables)
+        {
+            destroyable.SetSaveSystem(_saveSystem);
+        }
         boss.GetComponent<EnemyMover>().SetTarget(_station.transform);
-        boss.GetComponent<EnemyDestroyable>().SetSaveSystem(_saveSystem);
         ShowDetectorInfo("", false);
         if (_currentRound.IsNextWaveAfterDestroyCurrent)
         {
@@ -144,11 +148,11 @@ public class LevelSpawner : MonoBehaviour
         {
             var newEnemy = Instantiate(enemy, _spawnPoints[_currentRound.NumberSpawner].position + (Vector3)Random.insideUnitCircle * 5, Quaternion.identity);
             if (isNeenSetTarget)
-            {
-                newEnemy.GetComponent<EnemyDestroyable>().SetSaveSystem(_saveSystem);
+            {                
                 newEnemy.GetComponent<Shooter>().SetTargets(_player, _station);
                 newEnemy.GetComponent<EnemyMover>().SetTarget(_station.transform);
             }
+            newEnemy.GetComponent<EnemyDestroyable>().SetSaveSystem(_saveSystem);
             enemies.Add(newEnemy);
         }
         ShowDetectorInfo(EnemyNames[(int)_currentRound.WaveType]);
@@ -230,6 +234,7 @@ public class LevelSpawner : MonoBehaviour
         flock.SetTarget(_player, _station);
         flock.SetAgentCount(_currentRound.Count);
         flock.SetSaveSystem(_saveSystem);
+
         if (_currentRound.IsNextWaveAfterDestroyCurrent)
         {
             SetEnemyFlockToList(flock.gameObject);
@@ -271,7 +276,6 @@ public class LevelSpawner : MonoBehaviour
         }
         color.a = 0;
         _detectorText.color = color;
-
     }
 
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   round:
   - WaveType: 8
-    Count: 0
+    Count: 3
     TimeToNextWave: 6
     NumberSpawner: 0
     IsNextWaveAfterDestroyCurrent: 0
@@ -70,3 +70,4 @@ MonoBehaviour:
     IsNextWaveAfterDestroyCurrent: 0
   TotalTime: 151
   MaxMoney: 1240
+  _isBossMusic: 0

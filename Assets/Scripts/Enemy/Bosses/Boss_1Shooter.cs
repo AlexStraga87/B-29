@@ -6,6 +6,12 @@ public class Boss_1Shooter : Shooter
 {
     [SerializeField] private Flock _flockTemplate;
     [SerializeField] private int _flockCount = 4;
+    private SaveSystem _saveSystem;
+
+    private void Start()
+    {
+        _saveSystem = GetComponent<EnemyDestroyable>().GetSaveSystem();
+    }
 
     private void Update()
     {
@@ -16,6 +22,7 @@ public class Boss_1Shooter : Shooter
     private void CreateFlock()
     {
         Flock flock = Instantiate(_flockTemplate, transform.position + (Vector3)(Random.insideUnitCircle * 1 + GetRandomPosOnCircle() * 6.5f), Quaternion.identity);
+        flock.SetSaveSystem(_saveSystem);
         flock.SetTarget(_player, _station);
         flock.SetAgentCount(2);
     }
@@ -27,7 +34,6 @@ public class Boss_1Shooter : Shooter
             CreateFlock();
             yield return new WaitForSeconds(0.2f);
         }
-
     }
 
     private Vector2 GetRandomPosOnCircle()
